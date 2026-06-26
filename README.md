@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# ir_project_mobile_app
-A beautiful Flutter mobile application serving as the frontend interface for the Information Retrieval System, featuring BM25 tuning, Topic tags, and Real-time Search Evaluation.
-=======
 # 📱 Information Retrieval System (Mobile App)
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)
@@ -63,4 +59,3 @@ flutter clean
 flutter pub get
 flutter run
 ```
->>>>>>> b8e28f6 (Initial commit: Complete Mobile Frontend)
