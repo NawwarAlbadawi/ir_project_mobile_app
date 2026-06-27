@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import '../../l10n/fancy_strings.dart';
-
 class FancyElevatedButton extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
   final Widget? prefix;
   final TextStyle? textStyle;
-
   const FancyElevatedButton({
     required this.text,
     this.onPressed,
@@ -15,7 +12,6 @@ class FancyElevatedButton extends StatelessWidget {
     this.textStyle,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
@@ -24,7 +20,6 @@ class FancyElevatedButton extends StatelessWidget {
       label: Text(text),
     );
   }
-
   factory FancyElevatedButton.copy({
     String text = FancyStrings.copy,
     void Function()? onPressed,
@@ -35,7 +30,6 @@ class FancyElevatedButton extends StatelessWidget {
       prefix: const Icon(Icons.copy),
     );
   }
-
   factory FancyElevatedButton.cURL({
     String text = FancyStrings.cURL,
     void Function()? onPressed,

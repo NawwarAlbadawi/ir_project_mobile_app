@@ -1,33 +1,18 @@
-import 'dart:developer'; 
-
+import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
-
 class SharedPrefService {
   SharedPrefService._();
-
-  
   static final SharedPrefService instance = SharedPrefService._();
-
   static late SharedPreferences _sharedPreferences;
-
   static bool _isInitialized = false;
-
-  
-  
-  
   static Future<void> init() async {
-    
     if (_isInitialized) {
       return;
     }
-
     _sharedPreferences = await SharedPreferences.getInstance();
-    _isInitialized = true; 
+    _isInitialized = true;
   }
-
-
   T? getValue<T>(Enum key) {
-    
     if (!_isInitialized) {
       log('Error: SharedPrefService not initialized. Call init() first.');
       return null;
@@ -45,22 +30,12 @@ class SharedPrefService {
       return null;
     }
   }
-
-  
-  
-  
-  
-  
-  
   Future<bool> setValue<T>({required T value, required Enum key}) async {
-    
     if (!_isInitialized) {
       log('Error: SharedPrefService not initialized. Call init() first.');
       return false;
     }
-
     try {
-      
       if (value is int) {
         return await _sharedPreferences.setInt(key.name, value);
       } else if (value is String) {
@@ -78,14 +53,11 @@ class SharedPrefService {
       return false;
     }
   }
-  
   Future<bool> removeValue({required Enum key}) async {
-    
     if (!_isInitialized) {
       log('Error: SharedPrefService not initialized. Call init() first.');
       return false;
     }
-
     try {
       return await _sharedPreferences.remove(key.name);
     } catch (e) {
@@ -93,8 +65,6 @@ class SharedPrefService {
       return false;
     }
   }
-
-
   Future<bool> clearAll() async {
     if (!_isInitialized) {
       log('Error: SharedPrefService not initialized. Call init() first.');

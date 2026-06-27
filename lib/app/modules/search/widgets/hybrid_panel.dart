@@ -1,15 +1,11 @@
-// lib/app/modules/search/widgets/hybrid_panel.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ir_mobile_app/app/modules/search/controllers/search_controller.dart';
 import '../../../../config/design_config.dart';
-
 class HybridPanel extends GetView<AppSearchController> {
   const HybridPanel({super.key});
-
   static const _methods = ['rrf', 'linear', 'combmnz'];
   static const _labels = ['RRF', 'Linear', 'CombMNZ'];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +24,6 @@ class HybridPanel extends GetView<AppSearchController> {
             ),
           ),
           const SizedBox(height: 10),
-          // Fusion method toggle
           Obx(
             () => Wrap(
               spacing: 6,
@@ -65,8 +60,6 @@ class HybridPanel extends GetView<AppSearchController> {
               }),
             ),
           ),
-
-          // Weight sliders (shown only for linear)
           Obx(
             () => controller.fusionMethod.value == 'linear'
                 ? Padding(
@@ -88,12 +81,10 @@ class HybridPanel extends GetView<AppSearchController> {
     );
   }
 }
-
 class _WeightSlider extends GetView<AppSearchController> {
   final String label;
   final String index;
   const _WeightSlider({required this.label, required this.index});
-
   @override
   Widget build(BuildContext context) {
     return Column(

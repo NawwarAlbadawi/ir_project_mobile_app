@@ -1,16 +1,10 @@
-// =============================================================================
-// lib/app/modules/index_manager/views/index_manager_view.dart
-// =============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../../config/design_config.dart';
 import '../controllers/index_manager_controller.dart';
-
 class IndexManagerView extends GetView<IndexManagerController> {
   const IndexManagerView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +20,6 @@ class IndexManagerView extends GetView<IndexManagerController> {
         ),
         child: Column(
           children: [
-            // ── Dataset Selector ──────────────────────────────────
             _GlassSection(
               title: '📦  Dataset',
               child: Column(
@@ -98,8 +91,6 @@ class IndexManagerView extends GetView<IndexManagerController> {
               ),
             ),
             const SizedBox(height: 16),
-
-            // ── Index Builder ─────────────────────────────────────
             _GlassSection(
               title: '🏗️  Index Builder',
               child: Column(
@@ -159,8 +150,6 @@ class IndexManagerView extends GetView<IndexManagerController> {
               ),
             ),
             const SizedBox(height: 16),
-
-            // ── Status Monitor ────────────────────────────────────
             _GlassSection(
               title: '📡  Status Monitor',
               trailing: TextButton.icon(
@@ -209,20 +198,15 @@ class IndexManagerView extends GetView<IndexManagerController> {
     );
   }
 }
-
-// ── Sub-widgets ───────────────────────────────────────────────────────────────
-
 class _GlassSection extends StatelessWidget {
   final String title;
   final Widget child;
   final Widget? trailing;
-
   const _GlassSection({
     required this.title,
     required this.child,
     this.trailing,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -252,20 +236,17 @@ class _GlassSection extends StatelessWidget {
     );
   }
 }
-
 class _AccentButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final VoidCallback onTap;
   final Color color;
-
   const _AccentButton({
     required this.label,
     required this.icon,
     required this.onTap,
     this.color = AppColors.accent,
   });
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -287,12 +268,10 @@ class _AccentButton extends StatelessWidget {
     );
   }
 }
-
 class _StatusBox extends StatelessWidget {
   final String label, status;
   final String? subtitle, error;
   final double progress;
-
   const _StatusBox({
     required this.label,
     required this.status,
@@ -300,7 +279,6 @@ class _StatusBox extends StatelessWidget {
     this.error,
     this.progress = 0,
   });
-
   Color get _statusColor {
     switch (status) {
       case 'ready':
@@ -314,7 +292,6 @@ class _StatusBox extends StatelessWidget {
         return AppColors.textMuted;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -378,17 +355,14 @@ class _StatusBox extends StatelessWidget {
     );
   }
 }
-
 class _MonitorCard extends StatelessWidget {
   final String title, status;
   final bool isInfo;
-
   const _MonitorCard({
     required this.title,
     required this.status,
     this.isInfo = false,
   });
-
   Color get _color {
     if (isInfo) return AppColors.accentCyan;
     switch (status) {
@@ -400,7 +374,6 @@ class _MonitorCard extends StatelessWidget {
         return AppColors.accentAmber;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -437,11 +410,9 @@ class _MonitorCard extends StatelessWidget {
     );
   }
 }
-
 class _ModelCheckChip extends GetView<IndexManagerController> {
   final String label, id;
   const _ModelCheckChip({required this.label, required this.id});
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -466,7 +437,6 @@ class _ModelCheckChip extends GetView<IndexManagerController> {
     });
   }
 }
-
 extension IntExt on int {
   String toStringWithSeparator() {
     return toString().replaceAllMapped(

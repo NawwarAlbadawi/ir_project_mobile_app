@@ -1,14 +1,10 @@
-// lib/app/modules/search/widgets/result_card.dart
 import 'package:flutter/material.dart';
 import '../../../../config/design_config.dart';
 import '../../../models/api_models.dart';
-
 class ResultCard extends StatelessWidget {
   final SearchResultItem item;
   final int index;
-
   const ResultCard({super.key, required this.item, required this.index});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +18,6 @@ class ResultCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Rank bubble
           Container(
             width: 32,
             height: 32,
@@ -41,7 +36,6 @@ class ResultCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          // Content
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,14 +84,11 @@ class ResultCard extends StatelessWidget {
                     color: AppColors.textSecondary,
                     height: 1.5,
                   ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
           const SizedBox(width: 12),
-          // Score
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

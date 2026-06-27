@@ -1,7 +1,3 @@
-// =============================================================================
-// lib/app/modules/evaluation/views/evaluation_view.dart
-// =============================================================================
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,10 +5,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../../config/design_config.dart';
 import '../controllers/evaluation_controller.dart';
 import '../../../models/api_models.dart';
-
 class EvaluationView extends GetView<EvaluationController> {
   const EvaluationView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +22,10 @@ class EvaluationView extends GetView<EvaluationController> {
         ),
         child: Column(
           children: [
-            // ── Settings card ─────────────────────────────────────
             _GlassCard(
               title: '⚙️  Evaluation Settings',
               child: Column(
                 children: [
-                  // Dataset
                   _DropdownRow(
                     label: 'Dataset',
                     items: controller.datasets,
@@ -42,8 +34,6 @@ class EvaluationView extends GetView<EvaluationController> {
                     onChanged: controller.setDataset,
                   ),
                   const SizedBox(height: 12),
-
-                  // Model
                   _DropdownRow(
                     label: 'Model',
                     items: controller.models,
@@ -59,8 +49,6 @@ class EvaluationView extends GetView<EvaluationController> {
                     onChanged: controller.setModel,
                   ),
                   const SizedBox(height: 12),
-
-                  // Num queries + K
                   Row(
                     children: [
                       Expanded(
@@ -83,8 +71,6 @@ class EvaluationView extends GetView<EvaluationController> {
                     ],
                   ),
                   const SizedBox(height: 12),
-
-                  // Compare toggle
                   Obx(
                     () => SwitchListTile(
                       value: controller.compareRefinement.value,
@@ -101,8 +87,6 @@ class EvaluationView extends GetView<EvaluationController> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Run button
                   Obx(
                     () => controller.isRunning.value
                         ? Center(
@@ -135,13 +119,10 @@ class EvaluationView extends GetView<EvaluationController> {
               ),
             ),
             const SizedBox(height: 16),
-
-            // ── Results ───────────────────────────────────────────
             Obx(() {
               final base = controller.baseMetrics.value;
               final refined = controller.refinedMetrics.value;
               if (base == null) return const SizedBox();
-
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -162,8 +143,6 @@ class EvaluationView extends GetView<EvaluationController> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Metric tiles
                   GridView.count(
                     crossAxisCount: 2,
                     shrinkWrap: true,
@@ -196,11 +175,8 @@ class EvaluationView extends GetView<EvaluationController> {
                     ],
                   ),
                   const SizedBox(height: 20),
-
-                  // Bar chart comparison
                   if (refined != null)
                     _ComparisonChart(base: base, refined: refined),
-
                   const SizedBox(height: 100),
                 ],
               );
@@ -211,14 +187,10 @@ class EvaluationView extends GetView<EvaluationController> {
     );
   }
 }
-
-// ── Sub-widgets ───────────────────────────────────────────────────────────────
-
 class _GlassCard extends StatelessWidget {
   final String title;
   final Widget child;
   const _GlassCard({required this.title, required this.child});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -243,14 +215,12 @@ class _GlassCard extends StatelessWidget {
     );
   }
 }
-
 class _DropdownRow extends StatelessWidget {
   final String label;
   final List<String> items;
   final Map<String, String> labels;
   final RxString selected;
   final void Function(String) onChanged;
-
   const _DropdownRow({
     required this.label,
     required this.items,
@@ -258,7 +228,6 @@ class _DropdownRow extends StatelessWidget {
     required this.selected,
     required this.onChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -317,19 +286,16 @@ class _DropdownRow extends StatelessWidget {
     );
   }
 }
-
 class _IntField extends StatelessWidget {
   final String label;
   final RxInt rx;
   final int min, max;
-
   const _IntField({
     required this.label,
     required this.rx,
     required this.min,
     required this.max,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -370,14 +336,11 @@ class _IntField extends StatelessWidget {
     );
   }
 }
-
 class _MetricTile extends StatelessWidget {
   final String label;
   final double base;
   final double? refined;
-
   const _MetricTile({required this.label, required this.base, this.refined});
-
   @override
   Widget build(BuildContext context) {
     final delta = refined != null ? refined! - base : null;
@@ -386,7 +349,6 @@ class _MetricTile extends StatelessWidget {
         : null;
     final isPos = delta != null && delta >= 0;
     final deltaColor = isPos ? AppColors.accentGreen : AppColors.accentPink;
-
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: DesignConfig.glassDecoration,
@@ -421,7 +383,6 @@ class _MetricTile extends StatelessWidget {
               ),
             ),
           ],
-
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -472,13 +433,10 @@ class _MetricTile extends StatelessWidget {
     );
   }
 }
-
 class _ComparisonChart extends StatelessWidget {
   final AggregateMetrics base;
   final AggregateMetrics refined;
-
   const _ComparisonChart({required this.base, required this.refined});
-
   @override
   Widget build(BuildContext context) {
     const metrics = ['MAP', 'Recall', 'P@K', 'nDCG@K'];
@@ -494,7 +452,6 @@ class _ComparisonChart extends StatelessWidget {
       refined.meanPrecisionAtK,
       refined.meanNdcgAtK,
     ];
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: DesignConfig.glassDecoration,
@@ -579,7 +536,6 @@ class _ComparisonChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          // Legend
           Row(
             children: [
               _Legend(color: AppColors.accentLight, label: 'Base'),
@@ -592,12 +548,10 @@ class _ComparisonChart extends StatelessWidget {
     );
   }
 }
-
 class _Legend extends StatelessWidget {
   final Color color;
   final String label;
   const _Legend({required this.color, required this.label});
-
   @override
   Widget build(BuildContext context) {
     return Row(

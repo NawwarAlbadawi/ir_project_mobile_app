@@ -1,35 +1,27 @@
 import 'package:flutter/material.dart';
-
 import '../../l10n/fancy_strings.dart';
-
 class FancySearchField extends StatefulWidget {
   final String hintText;
   final void Function(String newValue) onChanged;
-
   const FancySearchField({
     required this.onChanged,
     this.hintText = FancyStrings.search,
     super.key,
   });
-
   @override
   State<FancySearchField> createState() => _FancySearchFieldState();
 }
-
 class _FancySearchFieldState extends State<FancySearchField> {
   late final TextEditingController _controller;
-
   @override
   void initState() {
     _controller = TextEditingController();
     super.initState();
   }
-
   void _onClearPressed() {
     _controller.clear();
     widget.onChanged('');
   }
-
   @override
   Widget build(BuildContext context) {
     return TextField(

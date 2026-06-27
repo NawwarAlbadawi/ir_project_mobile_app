@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
-
 import 'fancy_colors.dart';
-
 mixin FancyThemeData {
   static final ThemeData light = ThemeData.light().copyWith(
     colorScheme: ColorScheme.fromSeed(seedColor: FancyColors.turquoise),
     primaryColor: FancyColors.turquoise,
-
     appBarTheme: const AppBarTheme(
       backgroundColor: FancyColors.turquoise,
       elevation: 0,
     ),
-
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: FancyColors.turquoise,
       elevation: 0,
     ),
-
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: FancyColors.turquoise,
       selectionColor: FancyColors.turquoise,
@@ -49,6 +44,5 @@ mixin FancyThemeData {
     ),
     tabBarTheme: TabBarThemeData(indicatorColor: FancyColors.darkCyan),
   );
-
   static final ThemeData dark = light;
 }

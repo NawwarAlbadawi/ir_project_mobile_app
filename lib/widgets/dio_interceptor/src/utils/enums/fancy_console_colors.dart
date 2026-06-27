@@ -8,8 +8,6 @@ enum FancyConsoleTextColors {
   magenta('\x1B[35m'),
   cyan('\x1B[36m'),
   white('\x1B[37m');
-
   final String value;
-
   const FancyConsoleTextColors(this.value);
 }

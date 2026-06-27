@@ -1,26 +1,17 @@
-// =============================================================================
-// lib/app/modules/index_manager/controllers/index_manager_controller.dart
-// =============================================================================
-
 import 'package:get/get.dart';
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:flutter/material.dart';
 import '../../../controllers/network_controllers/ir_repository.dart';
 import '../../../models/api_models.dart';
-
 class IndexManagerController extends GetxController {
   final _repo = IrRepository.instance;
-
   final selectedDataset  = 'quora'.obs;
   final selectedModels   = <String>['tfidf', 'bm25', 'word2vec'].obs;
-
   final isLoadingDataset = false.obs;
   final isBuildingIndex  = false.obs;
-
   final datasetStatus = Rxn<DatasetStatus>();
   final indexStatus   = Rxn<IndexStatus>();
   final indexStats    = Rxn<Map<String, dynamic>>();
-
   void toggleModel(String m) {
     if (selectedModels.contains(m)) {
       selectedModels.remove(m);
@@ -28,8 +19,6 @@ class IndexManagerController extends GetxController {
       selectedModels.add(m);
     }
   }
-
-  // ── Dataset loading ────────────────────────────────────────────────
   Future<void> loadDataset() async {
     isLoadingDataset.value = true;
     final result = await _repo.loadDataset(selectedDataset.value);
@@ -42,7 +31,6 @@ class IndexManagerController extends GetxController {
     );
     isLoadingDataset.value = false;
   }
-
   Future<void> _pollDatasetStatus() async {
     while (true) {
       await Future.delayed(const Duration(seconds: 3));
@@ -52,8 +40,6 @@ class IndexManagerController extends GetxController {
       if (s == 'ready' || s == 'error') break;
     }
   }
-
-  // ── Index building ─────────────────────────────────────────────────
   Future<void> buildIndex() async {
     if (selectedModels.isEmpty) {
       _toast('Select at least one model', isError: true);
@@ -73,7 +59,6 @@ class IndexManagerController extends GetxController {
     );
     isBuildingIndex.value = false;
   }
-
   Future<void> _pollIndexStatus() async {
     while (true) {
       await Future.delayed(const Duration(seconds: 3));
@@ -86,12 +71,10 @@ class IndexManagerController extends GetxController {
       }
     }
   }
-
   Future<void> _fetchStats() async {
     final r = await _repo.indexStats(selectedDataset.value);
     r.fold((_) => null, (s) => indexStats.value = s);
   }
-
   Future<void> refreshAll() async {
     final dr = await _repo.datasetStatus(selectedDataset.value);
     dr.fold((_) => null, (s) => datasetStatus.value = s);
@@ -99,7 +82,6 @@ class IndexManagerController extends GetxController {
     ir.fold((_) => null, (s) => indexStatus.value = s);
     if (indexStatus.value?.status == 'ready') _fetchStats();
   }
-
   void _toast(String msg, {bool isError = false}) {
     if (isError) {
       CherryToast.error(title: Text(msg), displayCloseButton: false)

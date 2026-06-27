@@ -1,21 +1,14 @@
-// =============================================================================
-// IR Search Engine — lib/models/api_models.dart
-// All data models that map to the API Gateway JSON responses.
-// =============================================================================
-
 class TopicInfo {
   final int topicId;
   final String topicLabel;
   final List<String> topWords;
   final double probability;
-
   TopicInfo({
     required this.topicId,
     required this.topicLabel,
     required this.topWords,
     required this.probability,
   });
-
   factory TopicInfo.fromJson(Map<String, dynamic> json) {
     return TopicInfo(
       topicId: json['topic_id'] as int,
@@ -25,15 +18,12 @@ class TopicInfo {
     );
   }
 }
-
-/// Represents a single retrieved document result.
 class SearchResultItem {
   final int rank;
   final String docId;
   final double score;
   final String? snippet;
   final TopicInfo? topic;
-
   SearchResultItem({
     required this.rank,
     required this.docId,
@@ -41,7 +31,6 @@ class SearchResultItem {
     this.snippet,
     this.topic,
   });
-
   factory SearchResultItem.fromJson(Map<String, dynamic> json) {
     return SearchResultItem(
       rank: json['rank'] as int,
@@ -52,8 +41,6 @@ class SearchResultItem {
     );
   }
 }
-
-/// Full search response from POST /search.
 class SearchResponse {
   final String queryOriginal;
   final String? queryRefined;
@@ -63,7 +50,6 @@ class SearchResponse {
   final List<SearchResultItem> results;
   final double latencyMs;
   final Map<String, dynamic>? refinementInfo;
-
   SearchResponse({
     required this.queryOriginal,
     this.queryRefined,
@@ -74,7 +60,6 @@ class SearchResponse {
     required this.latencyMs,
     this.refinementInfo,
   });
-
   factory SearchResponse.fromJson(Map<String, dynamic> json) {
     return SearchResponse(
       queryOriginal: json['query_original'] as String,
@@ -90,17 +75,14 @@ class SearchResponse {
     );
   }
 }
-
-/// Dataset loading/preprocessing status.
 class DatasetStatus {
   final String dataset;
-  final String status; // not_loaded | loading | ready | error
+  final String status;
   final int progressDocs;
   final int totalDocs;
   final int progressQueries;
   final int totalQueries;
   final String? error;
-
   DatasetStatus({
     required this.dataset,
     required this.status,
@@ -110,7 +92,6 @@ class DatasetStatus {
     this.totalQueries = 0,
     this.error,
   });
-
   factory DatasetStatus.fromJson(Map<String, dynamic> json) {
     return DatasetStatus(
       dataset: json['dataset'] as String,
@@ -122,20 +103,16 @@ class DatasetStatus {
       error: json['error'] as String?,
     );
   }
-
   double get docProgress =>
       totalDocs > 0 ? progressDocs / totalDocs : 0.0;
 }
-
-/// Index build status.
 class IndexStatus {
   final String dataset;
-  final String status; // not_built | building | ready | error
+  final String status;
   final List<String> builtModels;
   final int progress;
   final int total;
   final String? error;
-
   IndexStatus({
     required this.dataset,
     required this.status,
@@ -144,7 +121,6 @@ class IndexStatus {
     this.total = 0,
     this.error,
   });
-
   factory IndexStatus.fromJson(Map<String, dynamic> json) {
     return IndexStatus(
       dataset: json['dataset'] as String,
@@ -159,8 +135,6 @@ class IndexStatus {
     );
   }
 }
-
-/// Aggregate evaluation metrics.
 class AggregateMetrics {
   final String dataset;
   final String model;
@@ -170,7 +144,6 @@ class AggregateMetrics {
   final double meanNdcgAtK;
   final int numQueries;
   final int k;
-
   AggregateMetrics({
     required this.dataset,
     required this.model,
@@ -181,7 +154,6 @@ class AggregateMetrics {
     required this.numQueries,
     required this.k,
   });
-
   factory AggregateMetrics.fromJson(Map<String, dynamic> json) {
     return AggregateMetrics(
       dataset: json['dataset'] as String,
@@ -195,32 +167,24 @@ class AggregateMetrics {
     );
   }
 }
-
-/// Health status of all services.
 class HealthStatus {
-  final String overall; // ok | degraded
+  final String overall;
   final Map<String, String> services;
-
   HealthStatus({required this.overall, required this.services});
-
   factory HealthStatus.fromJson(Map<String, dynamic> json) {
     return HealthStatus(
       overall: json['status'] as String,
       services: Map<String, String>.from(json['services'] as Map),
     );
   }
-
   bool get isOk => overall == 'ok';
 }
-
-/// Descriptor for a retrieval model.
 class ModelInfo {
   final String id;
   final String name;
-  final String category; // sparse | dense | hybrid
+  final String category;
   final String? description;
   final bool tunable;
-
   ModelInfo({
     required this.id,
     required this.name,
@@ -228,7 +192,6 @@ class ModelInfo {
     this.description,
     this.tunable = false,
   });
-
   factory ModelInfo.fromJson(Map<String, dynamic> json) {
     return ModelInfo(
       id: json['id'] as String,

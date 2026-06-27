@@ -1,24 +1,19 @@
-// lib/app/modules/search/widgets/refinement_banner.dart
 import 'package:flutter/material.dart';
 import '../../../../config/design_config.dart';
-
 class RefinementBanner extends StatelessWidget {
   final String originalQuery;
   final String refinedQuery;
   final Map<String, dynamic> info;
-
   const RefinementBanner({
     super.key,
     required this.originalQuery,
     required this.refinedQuery,
     required this.info,
   });
-
   @override
   Widget build(BuildContext context) {
     final corrections = info['corrections'] as Map? ?? {};
     final expansions = info['expansions'] as Map? ?? {};
-
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

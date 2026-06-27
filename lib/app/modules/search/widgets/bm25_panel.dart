@@ -1,12 +1,9 @@
-// lib/app/modules/search/widgets/bm25_panel.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ir_mobile_app/app/modules/search/controllers/search_controller.dart';
 import '../../../../config/design_config.dart';
-
 class Bm25Panel extends GetView<AppSearchController> {
   const Bm25Panel({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,14 +49,12 @@ class Bm25Panel extends GetView<AppSearchController> {
     );
   }
 }
-
 class _SliderGroup extends StatelessWidget {
   final String label;
   final RxDouble rxValue;
   final double min, max;
   final int divisions;
   final void Function(double) onChanged;
-
   const _SliderGroup({
     required this.label,
     required this.rxValue,
@@ -68,7 +63,6 @@ class _SliderGroup extends StatelessWidget {
     required this.divisions,
     required this.onChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(

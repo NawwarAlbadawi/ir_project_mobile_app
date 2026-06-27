@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 mixin FancyColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color grey = Color(0xFF9E9E9E);

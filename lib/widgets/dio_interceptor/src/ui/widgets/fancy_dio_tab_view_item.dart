@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../models/fancy_dio_inspector/fancy_dio_inspector_l10n_options.dart';
 import '../../models/fancy_dio_inspector/fancy_dio_inspector_tile_options.dart';
 import '../../models/network/network_base_model.dart';
@@ -11,35 +10,28 @@ import 'fancy_dio_tile.dart';
 import 'fancy_elevated_button.dart';
 import 'fancy_gap.dart';
 import 'fancy_response_dio_tile.dart';
-
 class FancyDioTabViewItem<T extends NetworkBaseModel> extends StatelessWidget {
   final T component;
   final FancyDioInspectorTileOptions tileOptions;
   final FancyDioInspectorL10nOptions l10nOptions;
-
   const FancyDioTabViewItem({
     required this.component,
     required this.tileOptions,
     required this.l10nOptions,
     super.key,
   });
-
   String get time {
     final innerTime = component.time.toFormattedString();
-
     if (component is NetworkResponseModel) {
       final model = component as NetworkResponseModel;
-
       return model.getFormattedTime();
     } else if (component is NetworkErrorModel) {
       final model = component as NetworkErrorModel;
-
       return model.getFormattedTime();
     } else {
       return innerTime;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,11 +1,9 @@
 import '../../utils/extensions/date_time_extensions.dart';
 import 'network_base_model.dart';
-
 class NetworkResponseModel extends NetworkBaseModel {
   final String statusCode;
   final String responseBody;
   final Duration elapsedDuration;
-
   const NetworkResponseModel({
     required this.statusCode,
     required this.responseBody,
@@ -17,7 +15,6 @@ class NetworkResponseModel extends NetworkBaseModel {
     required super.cURL,
     required super.time,
   });
-
   NetworkResponseModel copyWith({
     String? statusCode,
     String? responseBody,
@@ -41,11 +38,9 @@ class NetworkResponseModel extends NetworkBaseModel {
       time: time ?? this.time,
     );
   }
-
   @override
   bool contains(String query) {
     final searchPattern = RegExp(query, caseSensitive: false);
-
     return searchPattern.hasMatch(url) ||
         searchPattern.hasMatch(method) ||
         searchPattern.hasMatch(requestBody) ||
@@ -53,7 +48,6 @@ class NetworkResponseModel extends NetworkBaseModel {
         searchPattern.hasMatch(statusCode) ||
         searchPattern.hasMatch(responseBody);
   }
-
   String getFormattedTime() {
     return '${time.toFormattedString()} (${elapsedDuration.inMilliseconds} ms)';
   }

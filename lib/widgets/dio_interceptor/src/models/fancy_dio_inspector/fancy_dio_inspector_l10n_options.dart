@@ -1,62 +1,19 @@
-
-
 import '../../l10n/fancy_strings.dart';
-
 class FancyDioInspectorL10nOptions {
-  
-  
   final String appBarText;
-
-  
-  
   final String requestsText;
-
-  
-  
   final String responsesText;
-
-  
-  
   final String errorsText;
-
-  
-  
   final String searchHintText;
-
-  
   final String cURLText;
-
-  
-  
   final String copyText;
-
-  
-  
   final String copiedText;
-
-  
-  
   final String cURLCopiedText;
-
-  
   final String urlTitleText;
-
-  
-  
   final String requestTitleText;
-
-  
-  
   final String headersTitleText;
-
-  
-  
   final String responseTitleText;
-
-  
-  
   final String errorTitleText;
-
   const FancyDioInspectorL10nOptions({
     this.appBarText = FancyStrings.appBarText,
     this.requestsText = FancyStrings.requests,

@@ -1,20 +1,16 @@
 import 'package:dio/dio.dart';
-
 abstract class NetworkErrorResult {
   final Object? errorBody;
   final int? statusCode;
   final String errMessage;
-
   const NetworkErrorResult({
     this.errorBody,
     this.statusCode,
     required this.errMessage,
   });
 }
-
 class NetworkError extends NetworkErrorResult {
   NetworkError({super.errorBody, super.statusCode, required super.errMessage});
-
   factory NetworkError.fromDioError(DioException dioError) {
     switch (dioError.type) {
       case DioExceptionType.connectionTimeout:
@@ -22,19 +18,16 @@ class NetworkError extends NetworkErrorResult {
           errorBody: dioError.response,
           errMessage: 'Connection Timed Out',
         );
-
       case DioExceptionType.sendTimeout:
         return NetworkError(
           errorBody: dioError.response,
           errMessage: 'Send Timed Out',
         );
-
       case DioExceptionType.receiveTimeout:
         return NetworkError(
           errorBody: dioError.response,
           errMessage: 'Receive Timed Out',
         );
-
       case DioExceptionType.badResponse:
         final response = dioError.response;
         if (response == null || response.statusCode == null) {
@@ -47,13 +40,11 @@ class NetworkError extends NetworkErrorResult {
           response.statusCode!,
           response.data,
         );
-
       case DioExceptionType.cancel:
         return NetworkError(
           errorBody: dioError.response,
           errMessage: 'Request to ApiServer was canceled',
         );
-
       case DioExceptionType.unknown:
         if (dioError.message != null &&
             dioError.message!.contains('SocketException')) {
@@ -66,7 +57,6 @@ class NetworkError extends NetworkErrorResult {
           errorBody: dioError.response,
           errMessage: 'Unexpected Error, Please try again!',
         );
-
       default:
         return NetworkError(
           errorBody: dioError.response,
@@ -74,7 +64,6 @@ class NetworkError extends NetworkErrorResult {
         );
     }
   }
-
   factory NetworkError.fromBadResponse(int statusCode, dynamic response) {
     switch (statusCode) {
       case 400:

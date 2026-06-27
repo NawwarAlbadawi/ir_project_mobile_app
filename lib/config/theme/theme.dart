@@ -1,12 +1,6 @@
-// =============================================================================
-// lib/config/theme/theme.dart
-// Dark theme — mirrors gym_mobile_app's theme structure.
-// =============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../design_config.dart';
-
 final  darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,

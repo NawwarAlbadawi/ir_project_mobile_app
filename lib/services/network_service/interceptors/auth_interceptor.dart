@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-
 import '../../cached_service/shared_pref_service.dart';
-
 class AuthInterceptor extends InterceptorsWrapper {
   @override
   void onRequest(
@@ -14,10 +12,8 @@ class AuthInterceptor extends InterceptorsWrapper {
     }
     super.onRequest(options, handler);
   }
-
   Future<String?> getToken() async {
     return SharedPrefService.instance.getValue(AuthEnum.token);
   }
 }
-
 enum AuthEnum { token }

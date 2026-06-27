@@ -1,15 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-
 import 'network_error_result.dart';
 import 'future_either.dart';
-
 class NetworkService {
   NetworkService._();
   static late Dio dio;
   static final instance = NetworkService._();
   static bool isInit = false;
-
   static void initDio({
     required List<Interceptor> interceptors,
     required String baseUrl,
@@ -20,7 +17,6 @@ class NetworkService {
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -30,7 +26,6 @@ class NetworkService {
     dio.interceptors.addAll(interceptors);
     isInit = true;
   }
-
   FutureEither<T> post<T>({
     Object? bodyParameters,
     required String url,
@@ -55,14 +50,12 @@ class NetworkService {
       return Left(NetworkError(errorBody: e, errMessage: e.toString()));
     }
   }
-
   FutureEither<T> getData<T>({
     Map<String, dynamic>? bodyParameters,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     void Function(int, int)? onReceiveProgress,
     required T Function(Response) successHandler,
-
     required String url,
   }) async {
     try {
@@ -72,7 +65,6 @@ class NetworkService {
         queryParameters: queryParameters,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
-    
       );
       return Right(successHandler(res));
     } catch (e) {
@@ -82,7 +74,6 @@ class NetworkService {
       return Left(NetworkError(errorBody: e, errMessage: e.toString()));
     }
   }
-
   FutureEither<T> putData<T>({
     Object? bodyParameters,
     required String url,
@@ -107,7 +98,6 @@ class NetworkService {
       return Left(NetworkError(errorBody: e, errMessage: e.toString()));
     }
   }
-
   FutureEither<T> deleteData<T>({
     Object? bodyParameters,
     required String url,

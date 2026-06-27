@@ -1,13 +1,10 @@
-// lib/app/modules/search/widgets/model_card.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../../config/design_config.dart';
-
 class ModelCard extends StatelessWidget {
   final String id, name, icon, category;
   final bool isSelected;
   final VoidCallback onTap;
-
   const ModelCard({
     super.key,
     required this.id,
@@ -17,13 +14,11 @@ class ModelCard extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
   });
-
   Color get _categoryColor {
     if (category.contains('Dense')) return AppColors.accentCyan;
     if (category.contains('Hybrid')) return AppColors.accentPink;
     return AppColors.accentLight;
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

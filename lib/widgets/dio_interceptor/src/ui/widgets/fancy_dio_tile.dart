@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-
 import '../../models/fancy_dio_inspector/fancy_dio_inspector_tile_options.dart';
 import '../../utils/extensions/string_extensions.dart';
 import 'fancy_gap.dart';
-
 class FancyDioTile extends StatelessWidget {
   final String? title;
   final String description;
   final FancyDioInspectorTileOptions options;
-
   const FancyDioTile({
     required this.description,
     required this.options,
     this.title,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(

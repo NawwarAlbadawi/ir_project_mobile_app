@@ -1,8 +1,6 @@
 import 'dart:developer' as developer;
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-
 import '../models/fancy_dio_inspector/fancy_dio_inspector_console_options.dart';
 import '../models/fancy_dio_inspector/fancy_dio_inspector_options.dart';
 import '../models/network/network_base_model.dart';
@@ -14,30 +12,21 @@ import '../utils/enums/fancy_dio_key.dart';
 import '../utils/extensions/dio_error_extensions.dart';
 import '../utils/extensions/request_extensions.dart';
 import '../utils/extensions/response_extensions.dart';
-
-/// A fancy logger that logs network requests, responses and errors.
 class FancyDioLogger {
   FancyDioLogger._();
   static final FancyDioLogger instance = FancyDioLogger._();
-
   FancyDioInspectorOptions options = const FancyDioInspectorOptions();
   FancyDioInspectorConsoleOptions get consoleOptions => options.consoleOptions;
-
   List<NetworkRequestModel> _apiRequests = [];
   List<NetworkResponseModel> _apiResponses = [];
   List<NetworkErrorModel> _apiErrors = [];
-
   List<NetworkRequestModel> get apiRequests => [..._apiRequests];
   List<NetworkResponseModel> get apiResponses => [..._apiResponses];
   List<NetworkErrorModel> get apiErrors => [..._apiErrors];
-
-  /// [T] must be either [RequestOptions], [Response] or [DioException].
   void log<T>(T data) {
     final now = DateTime.now();
-
     if (data is RequestOptions) {
       data.extra[FancyDioKey.requestTime.key] = now;
-
       final requestModel = NetworkRequestModel(
         url: data.createUrlComponent(),
         method: data.createMethodComponent(),
@@ -46,13 +35,10 @@ class FancyDioLogger {
         cURL: data.cURL,
         time: now,
       );
-
       _apiRequests.insert(0, requestModel);
-
       if (consoleOptions.verbose) {
         consoleLog(model: requestModel);
       }
-
       _apiRequests = _apiRequests.take(options.maxLogs).toList();
     } else if (data is Response) {
       final responseModel = NetworkResponseModel(
@@ -66,13 +52,10 @@ class FancyDioLogger {
         time: now,
         elapsedDuration: data.calculateElapsedDuration(),
       );
-
       _apiResponses.insert(0, responseModel);
-
       if (consoleOptions.verbose) {
         consoleLog(model: responseModel);
       }
-
       _apiResponses = _apiResponses.take(options.maxLogs).toList();
     } else if (data is DioException) {
       final errorModel = NetworkErrorModel(
@@ -86,24 +69,19 @@ class FancyDioLogger {
         time: now,
         elapsedDuration: data.calculateElapsedDuration(),
       );
-
       _apiErrors.insert(0, errorModel);
-
       if (consoleOptions.verbose) {
         consoleLog(model: errorModel);
       }
-
       _apiErrors = _apiErrors.take(options.maxLogs).toList();
     } else {
       throw Exception('Invalid type!');
     }
   }
-
   void consoleLog({required NetworkBaseModel model}) {
     late final String name;
     late FancyConsoleTextColors ansiiColor;
     const resetAnsiColor = FancyConsoleTextColors.reset;
-
     switch (model.runtimeType) {
       case NetworkRequestModel:
         name = consoleOptions.requestName;
@@ -120,19 +98,12 @@ class FancyDioLogger {
       default:
         throw Exception('Invalid type! ${model.runtimeType}}');
     }
-
-    /// If [consoleOptions.colorize] is [false], we should reset the color.
     if (!consoleOptions.colorize) {
       ansiiColor = FancyConsoleTextColors.reset;
     }
-
     final data = model.toClipboardText();
-
-    /// [log] function inside `dart:developer` truncates the output for some
-    /// reason, so we use [debugPrint] instead as a workaround.
     if (kIsWeb) {
       final color = ansiiColor.value;
-
       debugPrint('$color$data'.replaceAll('\n', '\n$color'));
     } else {
       developer.log(

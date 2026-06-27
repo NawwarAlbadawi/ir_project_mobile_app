@@ -1,39 +1,29 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-
 import 'map_extensions.dart';
-
 extension RequestExtensions on RequestOptions {
   String createUrlComponent() {
     return uri.toString();
   }
-
   String createMethodComponent() {
     return method;
   }
-
   String createRequestBody() {
     final String body;
-
     if (data is Map<String, dynamic>) {
       body = (data as Map<String, dynamic>).toPrettyJson();
     } else {
       body = data.toString();
     }
-
     return body;
   }
-
   String createRequestHeadersComponent() {
     return headers.toPrettyJson();
   }
 }
-
 extension CurlExtension on RequestOptions {
   String get cURL {
     var cmd = 'curl';
-
     final header = headers
         .map((key, value) {
           if (key == 'content-type' &&
@@ -52,7 +42,6 @@ extension CurlExtension on RequestOptions {
           })
           .values
           .join('&');
-
       url += (url.contains('?')) ? query : '?$query';
     }
     if (method == 'GET') {
@@ -78,16 +67,13 @@ extension CurlExtension on RequestOptions {
           }
         } else if (data is Map<String, dynamic>) {
           files.addAll(data as Map<String, dynamic>);
-
           if (files.isNotEmpty) {
             postData = "-d '${json.encode(files)}'";
           }
         }
       }
-
       cmd += " -X $method $postData $header '$url'";
     }
-
     return cmd;
   }
 }

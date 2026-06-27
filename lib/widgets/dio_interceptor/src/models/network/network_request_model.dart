@@ -1,5 +1,4 @@
 import 'network_base_model.dart';
-
 class NetworkRequestModel extends NetworkBaseModel {
   const NetworkRequestModel({
     required super.url,
@@ -9,7 +8,6 @@ class NetworkRequestModel extends NetworkBaseModel {
     required super.cURL,
     required super.time,
   });
-
   NetworkRequestModel copyWith({
     String? url,
     String? method,
@@ -27,11 +25,9 @@ class NetworkRequestModel extends NetworkBaseModel {
       time: time ?? super.time,
     );
   }
-
   @override
   bool contains(String query) {
     final searchPattern = RegExp(query, caseSensitive: false);
-
     return searchPattern.hasMatch(url) ||
         searchPattern.hasMatch(method) ||
         searchPattern.hasMatch(requestBody) ||

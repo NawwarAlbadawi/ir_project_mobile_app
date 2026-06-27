@@ -1,7 +1,3 @@
-// =============================================================================
-// lib/app/modules/search/views/search_view.dart
-// =============================================================================
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -13,24 +9,20 @@ import '../widgets/result_card.dart';
 import '../widgets/bm25_panel.dart';
 import '../widgets/hybrid_panel.dart';
 import '../widgets/refinement_banner.dart';
-
 class SearchView extends GetView<AppSearchController> {
   const SearchView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgBase,
       body: CustomScrollView(
         slivers: [
-          // ── App Bar ────────────────────────────────────────────────
           SliverAppBar(
             pinned: true,
             expandedHeight: 180,
             backgroundColor: AppColors.bgBase,
             flexibleSpace: FlexibleSpaceBar(background: _HeroHeader()),
           ),
-
           SliverPadding(
             padding: const EdgeInsets.symmetric(
               horizontal: DesignConfig.horizontalPadding,
@@ -38,35 +30,24 @@ class SearchView extends GetView<AppSearchController> {
             ),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                // ── Search Bar ──────────────────────────────────────
                 _SearchBar(),
                 const SizedBox(height: 16),
-
-                // ── Dataset + Mode toggles ──────────────────────────
                 _ControlsRow(),
                 const SizedBox(height: 16),
-
-                // ── Model Grid ─────────────────────────────────────
                 _SectionLabel('Retrieval Model'),
                 const SizedBox(height: 10),
                 const _ModelGrid(),
                 const SizedBox(height: 20),
-
-                // ── BM25 Panel ─────────────────────────────────────
                 Obx(
                   () => controller.showBm25Panel
                       ? const Bm25Panel().animate().fadeIn()
                       : const SizedBox.shrink(),
                 ),
-
-                // ── Hybrid Parallel Panel ──────────────────────────
                 Obx(
                   () => controller.showHybridPanel
                       ? const HybridPanel().animate().fadeIn()
                       : const SizedBox(),
                 ),
-
-                // ── Results ────────────────────────────────────────
                 Obx(() {
                   if (controller.isLoading.value) {
                     return Center(
@@ -81,23 +62,18 @@ class SearchView extends GetView<AppSearchController> {
                   }
                   final resp = controller.response.value;
                   if (resp == null) return const SizedBox();
-
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Results header
                       Wrap(
                         children: [
                           _SectionLabel('Results for "${resp.queryOriginal}"'),
-
                           _MetaBadge(
                             '${resp.results.length} results · ${resp.latencyMs.toStringAsFixed(1)} ms',
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
-
-                      // Refinement banner
                       if (resp.refinementInfo != null &&
                           resp.queryRefined != null)
                         RefinementBanner(
@@ -105,10 +81,7 @@ class SearchView extends GetView<AppSearchController> {
                           refinedQuery: resp.queryRefined!,
                           info: resp.refinementInfo!,
                         ),
-
                       const SizedBox(height: 12),
-
-                      // Result cards
                       ...resp.results.asMap().entries.map(
                         (e) => ResultCard(item: e.value, index: e.key)
                             .animate(delay: (e.key * 40).ms)
@@ -119,7 +92,7 @@ class SearchView extends GetView<AppSearchController> {
                               curve: Curves.easeOut,
                             ),
                       ),
-                      const SizedBox(height: 200), // nav bar space
+                      const SizedBox(height: 200),
                     ],
                   );
                 }),
@@ -131,9 +104,6 @@ class SearchView extends GetView<AppSearchController> {
     );
   }
 }
-
-// ── Sub-widgets ──────────────────────────────────────────────────────────────
-
 class _HeroHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -177,7 +147,6 @@ class _HeroHeader extends StatelessWidget {
     );
   }
 }
-
 class _SearchBar extends GetView<AppSearchController> {
   @override
   Widget build(BuildContext context) {
@@ -231,7 +200,6 @@ class _SearchBar extends GetView<AppSearchController> {
     );
   }
 }
-
 class _ControlsRow extends GetView<AppSearchController> {
   @override
   Widget build(BuildContext context) {
@@ -242,7 +210,6 @@ class _ControlsRow extends GetView<AppSearchController> {
         spacing: 20,
         runSpacing: 12,
         children: [
-          // Dataset
           _ToggleGroup(
             label: 'Dataset',
             options: const ['quora', 'msmarco'],
@@ -250,17 +217,17 @@ class _ControlsRow extends GetView<AppSearchController> {
             selected: controller.dataset,
             onSelect: controller.setDataset,
           ),
-
-          // Mode
-          _ToggleGroup(
-            label: 'Execution Mode',
-            options: const ['false', 'true'],
-            labels: const ['Base', '+ Refinements'],
-            selected: controller.useRefinement.value ? 'true'.obs : 'false'.obs,
-            onSelect: (v) => controller.useRefinement.value = v == 'true',
-          ),
-
-          // Top-K
+          Obx(() {
+            return _ToggleGroup(
+              label: 'Execution Mode',
+              options: const ['false', 'true'],
+              labels: const ['Base', '+ Refinements'],
+              selected: controller.useRefinement.value
+                  ? 'true'.obs
+                  : 'false'.obs,
+              onSelect: (v) => controller.useRefinement.value = v == 'true',
+            );
+          }),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -294,14 +261,12 @@ class _ControlsRow extends GetView<AppSearchController> {
     );
   }
 }
-
 class _ToggleGroup extends StatelessWidget {
   final String label;
   final List<String> options;
   final List<String> labels;
   final RxString selected;
   final void Function(String) onSelect;
-
   const _ToggleGroup({
     required this.label,
     required this.options,
@@ -309,7 +274,6 @@ class _ToggleGroup extends StatelessWidget {
     required this.selected,
     required this.onSelect,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -338,7 +302,9 @@ class _ToggleGroup extends StatelessWidget {
               children: List.generate(
                 options.length,
                 (i) => GestureDetector(
-                  onTap: () => onSelect(options[i]),
+                  onTap: () {
+                    onSelect(options[i]);
+                  },
                   child: AnimatedContainer(
                     duration: 180.ms,
                     padding: const EdgeInsets.symmetric(
@@ -374,10 +340,8 @@ class _ToggleGroup extends StatelessWidget {
     );
   }
 }
-
 class _ModelGrid extends GetView<AppSearchController> {
   const _ModelGrid();
-
   static const _models = [
     {'id': 'tfidf', 'name': 'TF-IDF', 'icon': '📊', 'cat': 'Sparse'},
     {'id': 'bm25', 'name': 'BM25', 'icon': '🎯', 'cat': 'Sparse · Tunable'},
@@ -396,7 +360,6 @@ class _ModelGrid extends GetView<AppSearchController> {
       'cat': 'Hybrid',
     },
   ];
-
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -424,11 +387,9 @@ class _ModelGrid extends GetView<AppSearchController> {
     );
   }
 }
-
 class _SectionLabel extends StatelessWidget {
   final String text;
   const _SectionLabel(this.text);
-
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -442,11 +403,9 @@ class _SectionLabel extends StatelessWidget {
     );
   }
 }
-
 class _MetaBadge extends StatelessWidget {
   final String text;
   const _MetaBadge(this.text);
-
   @override
   Widget build(BuildContext context) {
     return Container(

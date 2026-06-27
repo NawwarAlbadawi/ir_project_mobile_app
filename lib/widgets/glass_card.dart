@@ -1,23 +1,15 @@
-// =============================================================================
-// IR Search Engine — lib/widgets/glass_card.dart
-// Shared glassmorphism card widget.
-// =============================================================================
-
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
-
 class GlassCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final double borderRadius;
-
   const GlassCard({
     super.key,
     required this.child,
     this.padding,
     this.borderRadius = 16,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,15 +23,10 @@ class GlassCard extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Gradient text widget
-// ---------------------------------------------------------------------------
 class GradientText extends StatelessWidget {
   final String text;
   final TextStyle? style;
   final Gradient gradient;
-
   const GradientText(
     this.text, {
     super.key,
@@ -50,7 +37,6 @@ class GradientText extends StatelessWidget {
       end: Alignment.centerRight,
     ),
   });
-
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
@@ -62,15 +48,9 @@ class GradientText extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Model category badge
-// ---------------------------------------------------------------------------
 class CategoryBadge extends StatelessWidget {
   final String category;
-
   const CategoryBadge(this.category, {super.key});
-
   @override
   Widget build(BuildContext context) {
     Color color;
@@ -102,16 +82,10 @@ class CategoryBadge extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Section header
-// ---------------------------------------------------------------------------
 class SectionHeader extends StatelessWidget {
   final String title;
   final Widget? trailing;
-
   const SectionHeader(this.title, {super.key, this.trailing});
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -122,22 +96,16 @@ class SectionHeader extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Accent chip toggle button
-// ---------------------------------------------------------------------------
 class AccentChip extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
-
   const AccentChip({
     super.key,
     required this.label,
     required this.selected,
     required this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -167,10 +135,6 @@ class AccentChip extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Labeled slider
-// ---------------------------------------------------------------------------
 class LabeledSlider extends StatelessWidget {
   final String label;
   final double value;
@@ -179,7 +143,6 @@ class LabeledSlider extends StatelessWidget {
   final int? divisions;
   final ValueChanged<double> onChanged;
   final String Function(double)? displayValue;
-
   const LabeledSlider({
     super.key,
     required this.label,
@@ -190,7 +153,6 @@ class LabeledSlider extends StatelessWidget {
     required this.onChanged,
     this.displayValue,
   });
-
   @override
   Widget build(BuildContext context) {
     final display = displayValue != null
@@ -232,29 +194,22 @@ class LabeledSlider extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Metric comparison tile
-// ---------------------------------------------------------------------------
 class MetricTile extends StatelessWidget {
   final String label;
   final double baseValue;
   final double? refinedValue;
-
   const MetricTile({
     super.key,
     required this.label,
     required this.baseValue,
     this.refinedValue,
   });
-
   @override
   Widget build(BuildContext context) {
     final delta = refinedValue != null ? refinedValue! - baseValue : null;
     final pct = (baseValue > 0 && delta != null)
         ? (delta / baseValue * 100).toStringAsFixed(1)
         : null;
-
     return GlassCard(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -296,7 +251,6 @@ class MetricTile extends StatelessWidget {
     );
   }
 }
-
 class _ValueBox extends StatelessWidget {
   final String label;
   final double value;
@@ -306,7 +260,6 @@ class _ValueBox extends StatelessWidget {
     required this.value,
     required this.color,
   });
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -328,12 +281,10 @@ class _ValueBox extends StatelessWidget {
     );
   }
 }
-
 class _DeltaBadge extends StatelessWidget {
   final double delta;
   final String pct;
   const _DeltaBadge({required this.delta, required this.pct});
-
   @override
   Widget build(BuildContext context) {
     final isPos = delta >= 0;
